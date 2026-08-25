@@ -35,11 +35,44 @@
   0%, 100% { box-shadow: 0 8px 32px rgba(236,72,153,0.3), 0 4px 16px rgba(59,130,246,0.2); }
   50% { box-shadow: 0 8px 40px rgba(236,72,153,0.45), 0 4px 20px rgba(59,130,246,0.35); }
 }
+@keyframes glassShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
 #delivery-popup {
   animation: slideInLeft 0.6s ease-out, floatEffect 3s ease-in-out infinite 0.6s;
 }
 #delivery-popup .popup-card {
-  animation: pulse-glow 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+#delivery-popup .popup-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255,255,255,0.08) 40%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.08) 60%,
+    transparent 70%
+  );
+  animation: glassShimmer 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+#delivery-popup .popup-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.25);
+  pointer-events: none;
+  z-index: 2;
 }
 </style>
 </head>
@@ -67,7 +100,7 @@
 
     <!-- Floating Delivery Popup -->
     <div id="delivery-popup" style="position:fixed;left:16px;bottom:24px;z-index:9999;max-width:340px;width:calc(100%-2rem);pointer-events:auto;">
-      <div class="popup-card" style="position:relative;border-radius:16px;padding:16px;backdrop-filter:blur(20px);background:linear-gradient(135deg, rgba(236,72,153,0.88) 0%, rgba(147,51,234,0.88) 40%, rgba(59,130,246,0.88) 100%);border:1px solid rgba(255,255,255,0.2);box-shadow:0 8px 32px rgba(236,72,153,0.3), 0 4px 16px rgba(59,130,246,0.2);">
+      <div class="popup-card" style="position:relative;border-radius:16px;padding:16px;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);background:linear-gradient(135deg, rgba(236,72,153,0.45) 0%, rgba(147,51,234,0.40) 35%, rgba(59,130,246,0.45) 70%, rgba(236,72,153,0.40) 100%);border:1px solid rgba(255,255,255,0.3);box-shadow:0 8px 32px rgba(236,72,153,0.25), 0 4px 16px rgba(59,130,246,0.2), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(255,255,255,0.05);">
         <button onclick="(function(){var p=document.getElementById('delivery-popup');if(p){p.style.animation='slideOutLeft 0.3s ease-in forwards';setTimeout(function(){p.remove()},300)}})()" style="position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.2);border:none;color:white;font-size:12px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.4)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">×</button>
         <div style="display:flex;align-items:flex-start;gap:12px;">
           <div style="flex-shrink:0;width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;">
@@ -79,7 +112,7 @@
             </svg>
           </div>
           <div style="flex:1;min-width:0;">
-            <p style="color:white;font-size:12px;font-weight:bold;line-height:1.6;margin:0;">Same Day Express Site Delivery in Kalikiri: Orders placed before 2:00 PM are dispatched same day via our fleet of heavy vehicles.</p>
+            <p style="color:rgba(255,255,255,0.95);font-size:12px;font-weight:600;line-height:1.6;margin:0;text-shadow:0 1px 2px rgba(0,0,0,0.3);">Same Day Express Site Delivery in Kalikiri: Orders placed before 2:00 PM are dispatched same day via our fleet of heavy vehicles.</p>
           </div>
         </div>
       </div>
